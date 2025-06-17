@@ -35,7 +35,8 @@ void glsol::next_UniT_Hfield_constrained() {
   const CoordinateVector originpoints(coordsList); 
       
   onsites(ALL) {
-
+	matep::Matep MP;
+	
     real_t gap_A = MP.gap_A_td(config.Inip, T[X]);
     real_t gap_B = MP.gap_B_td(config.Inip, T[X]);
 
@@ -123,9 +124,15 @@ void glsol::next_UniT_Hfield_constrained() {
                         : config.lambda0;
   
   onsites (ALL) {
-
+	matep::Matep MP;
+	
     real_t beta[6];
-    point_params(T[X], config.Inip, beta);
+    beta[0] = MP.alpha_td(config.Inip, T[X]);
+    beta[1] = MP.beta1_td(config.Inip, T[X]);
+    beta[2] = MP.beta2_td(config.Inip, T[X]);
+    beta[3] = MP.beta3_td(config.Inip, T[X]);
+    beta[4] = MP.beta4_td(config.Inip, T[X]);
+    beta[5] = MP.beta5_td(config.Inip, T[X]);
 
     auto AxAt = A[X]*A[X].transpose();
     auto AxAd = A[X]*A[X].dagger();

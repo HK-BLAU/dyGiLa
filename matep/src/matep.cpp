@@ -14,24 +14,31 @@
 #include <cmath>
 #include <vector>
 
+#include "matep_namespace_utils.hpp"
 #include "matep.hpp"
+#include "plumbing/globals.h"
 
+// declearation of hila::global<matep::matep_consts> wrapper_mp
+// the initialization is done by matep::init_wrapper_mp() call,
+// decleared in matep_namespace_utils.hpp
+hila::global<matep::matep_consts> wrapper_mp;
 
 //*********************************************************************
 //***     member functions, interfaces of dimensional qualities     ***
 //*********************************************************************
+namespace matep {
 real_t
-Matep::Fa0p(real_t p) {return lininterp(Fa0_arr, p);
+Matep::Fa0p(real_t p) {return lininterp(wrapper_mp().Fa0_arr, p);
 }
 
 real_t
 Matep::Tcp(real_t p){
-  real_t Tc = lininterp(Tc_arr, p)*std::pow(10.0f,-3);
+  real_t Tc = lininterp(wrapper_mp().Tc_arr, p)*std::pow(10.0f,-3);
   return Tc;
 }
 
 real_t
-Matep::Tcp_mK(real_t p) {return lininterp(Tc_arr, p);
+Matep::Tcp_mK(real_t p) {return lininterp(wrapper_mp().Tc_arr, p);
 }
 
 real_t
@@ -50,25 +57,25 @@ Matep::tauQP(real_t p, real_t T){
 
 real_t
 Matep::mEffp(real_t p){  
-  real_t mEff = lininterp(Ms_arr, p)*m3;;
+  real_t mEff = lininterp(wrapper_mp().Ms_arr, p)*wrapper_mp().m3;;
   return mEff;
 }
 
 real_t
 Matep::vFp(real_t p){
   // unit m.s^-1
-  real_t vF = lininterp(VF_arr, p);
+  real_t vF = lininterp(wrapper_mp().VF_arr, p);
   return vF;
 }
 
 real_t
 Matep::xi0p(real_t p){
-  real_t xi0 = lininterp(XI0_arr, p)*nm;
+  real_t xi0 = lininterp(wrapper_mp().XI0_arr, p)*wrapper_mp().nm;
   return xi0;
 }  
 
 real_t
-Matep::xi0GLp(real_t p){ return xi0p(p)*std::sqrt((7.f*zeta3)/20.f); }
+Matep::xi0GLp(real_t p){ return xi0p(p)*std::sqrt((7.f*wrapper_mp().zeta3)/20.f); }
 
 real_t
 Matep::tGL(real_t p){ return 1.290994449*(xi0GLp(p)/vFp(p)); }
@@ -78,7 +85,7 @@ Matep::N0p(real_t p){
   /*
    * the maginitude of N0p is about 10^(50), it must be double type 
    */
-  double N0 = (std::pow(mEffp(p),2)*vFp(p))/((2.0f*pi*pi)*std::pow(hbar,3));
+  double N0 = (std::pow(mEffp(p),2)*vFp(p))/((2.0f*wrapper_mp().pi*wrapper_mp().pi)*std::pow(wrapper_mp().hbar,3));
   // ((mEff(p)**(2))*vF(p))/((2*pi*pi)*(hbar**(3)))
   return N0;
 }
@@ -94,7 +101,7 @@ Matep::alpha_td(real_t p, real_t T){ return 1.f*(T/Tcp_mK(p)-1); }
 
 real_t
 Matep::beta1_td(real_t p, real_t T){
-  real_t beta1 = c_betai*(-1.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(c1_arr, p));
+  real_t beta1 = wrapper_mp().c_betai*(-1.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c1_arr, p));
 
   return beta1;
 }  
@@ -102,7 +109,7 @@ Matep::beta1_td(real_t p, real_t T){
 
 real_t
 Matep::beta2_td(real_t p, real_t T){
-  real_t beta2 = c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(c2_arr, p));
+  real_t beta2 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c2_arr, p));
 
   return beta2;
 }  
@@ -110,7 +117,7 @@ Matep::beta2_td(real_t p, real_t T){
 
 real_t
 Matep::beta3_td(real_t p, real_t T){
-  real_t beta3 = c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(c3_arr, p));
+  real_t beta3 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c3_arr, p));
 
   return beta3;
 }  
@@ -118,7 +125,7 @@ Matep::beta3_td(real_t p, real_t T){
 
 real_t
 Matep::beta4_td(real_t p, real_t T){
-  real_t beta4 = c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(c4_arr, p));
+  real_t beta4 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c4_arr, p));
 
   return beta4;
 }
@@ -126,23 +133,23 @@ Matep::beta4_td(real_t p, real_t T){
 
 real_t
 Matep::beta5_td(real_t p, real_t T){
-  real_t beta5 = c_betai*(-2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(c5_arr, p));
+  real_t beta5 = wrapper_mp().c_betai*(-2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c5_arr, p));
 
   return beta5;
 }  
 
 real_t
 Matep::gz_td(real_t p){
-  real_t gz = 5.f*c_betai
+  real_t gz = 5.f*wrapper_mp().c_betai
               *(1./((1+Fa0p(p))*(1+Fa0p(p))))
-              *(gammahbar/(kb*Tcp(p)))
-              *(gammahbar/(kb*Tcp(p)));
+              *(wrapper_mp().gammahbar/(wrapper_mp().kb*Tcp(p)))
+              *(wrapper_mp().gammahbar/(wrapper_mp().kb*Tcp(p)));
 
   return gz;
 }
 
 real_t
-Matep::gamma_td(real_t p, real_t T){ return tGL(p)/(tauQP(p, T)*mus); }  
+Matep::gamma_td(real_t p, real_t T){ return tGL(p)/(tauQP(p, T)*wrapper_mp().mus); }  
 
 
 //**********************************************************************
@@ -193,16 +200,16 @@ real_t
 Matep::gap_td(real_t p, real_t T){
 
   if (f_A_td(p, T) > f_B_td(p, T)){
-    std::cout << " \nnow p, T are: " << p << ", " << T
-              << ", equlibrum bulk phase is B phase. "
-              << std::endl;
+    // std::cout << " \nnow p, T are: " << p << ", " << T
+    //          << ", equlibrum bulk phase is B phase. "
+    //          << std::endl;
     return gap_A_td(p, T);
     
   } else if (f_A_td(p, T) < f_B_td(p, T)) { 
     
-    std::cout << " \nnow p, T are: " << p << ", " << T
-              << ", equlibrum bulk phase is A phase. "
-              << std::endl;
+    // std::cout << " \nnow p, T are: " << p << ", " << T
+    //           << ", equlibrum bulk phase is A phase. "
+    //           << std::endl;
     return gap_B_td(p, T);   
 
   } else {
@@ -213,9 +220,9 @@ Matep::gap_td(real_t p, real_t T){
 	T < Tcp_mK(p)
        ){
 
-       std::cout << " \nnow p, T are: " << p << ", " << T
-                 << ", and A and B degenerate, return as -1. "
-                 << std::endl;
+       // std::cout << " \nnow p, T are: " << p << ", " << T
+       //           << ", and A and B degenerate, return as -1. "
+       //           << std::endl;
        return -1.f;
 
     } else  //(
@@ -224,9 +231,9 @@ Matep::gap_td(real_t p, real_t T){
             // )
 	  {
 
-            std::cout << " \nnow p, T are: " << p << ", " << T
-	            << ", system is in normal phase. "
-	            << std::endl;
+            // std::cout << " \nnow p, T are: " << p << ", " << T
+	        //     << ", system is in normal phase. "
+	        //     << std::endl;
 	    return 0.f;
 
     }
@@ -237,10 +244,10 @@ Matep::gap_td(real_t p, real_t T){
 // tAB_RWS 2019
 real_t
 Matep::tAB_RWS(real_t p){
-  real_t t = 1.f/(3.f*lininterp(c1_arr, p)
-           + lininterp(c3_arr, p)
-           - 2.f*lininterp(c4_arr, p)
-           - 2.f*lininterp(c5_arr, p));
+  real_t t = 1.f/(3.f*lininterp(wrapper_mp().c1_arr, p)
+           + lininterp(wrapper_mp().c3_arr, p)
+           - 2.f*lininterp(wrapper_mp().c4_arr, p)
+           - 2.f*lininterp(wrapper_mp().c5_arr, p));
   return t;
 }
 
@@ -270,4 +277,4 @@ Matep::f_B_td(real_t p, real_t T)
     return 0.;
 
 }
-
+}

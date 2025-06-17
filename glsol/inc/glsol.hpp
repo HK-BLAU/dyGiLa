@@ -21,6 +21,27 @@ using real_t = float;                          // or double ?
 using phi_t = Matrix<3,3,Complex<real_t>>;     // saves the trouble of writing this every time
 
 
+enum class matreduc {
+	i_sumA,
+	N_MatREDUCTION
+	  
+};
+  
+enum {
+	i_sumgapA,
+	i_sumkin, i_sumkin_we,
+	i_sumk1, i_sumk1_we,
+	i_sumk2, i_sumk2_we,
+	i_sumk3, i_sumk3_we,
+	i_suma, i_suma_we,
+	i_sumb1, i_sumb1_we,
+	i_sumb2, i_sumb2_we,
+	i_sumb3, i_sumb3_we,
+	i_sumb4, i_sumb4_we,
+	i_sumb5, i_sumb5_we,
+	N_REDUCTION
+};
+
 // Container for simulation parameters and methods
 class glsol{
 
@@ -39,9 +60,6 @@ public:
   // void initializep();
   // H-field initialization    
   void initializeH();
-
-  // bulk coefficients calculating tool
-  void point_params(real_t T, real_t p, real_t beta[6]);
   
   void write_moduli();
   void write_energies();
@@ -69,7 +87,7 @@ public:
   real_t t;
   real_t tc = 0;
 
-  Matep MP;
+  matep::Matep MP;
 
   dyGiLaConf config;
 

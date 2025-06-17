@@ -1,4 +1,4 @@
-#define USE_PARIO 
+#define USE_PARIO
 #define USE_MPI 
 #include <sstream>
 #include <iostream>
@@ -12,6 +12,8 @@
 #include "plumbing/fft.h"
 
 #include "glsol.hpp"
+#include "matep_namespace_utils.hpp"
+
 #if defined USE_PARIO
 #include "pario.hpp"
 #endif
@@ -32,6 +34,9 @@ int main(int argc, char **argv) {
 
     // initilize static H-field
     gl.initializeH();
+	
+	// initialize global matep wrapper
+    matep::init_wrapper_mp();   
     
     //int bloob_created=0;
     

@@ -33,7 +33,8 @@ void glsol::next_bath() {
   next_timer.start();
 
   onsites(ALL) {
-
+	matep::Matep MP;
+	
     real_t gapa = MP.gap_A_td(p[X], T[X]);
     real_t gapb = MP.gap_B_td(p[X], T[X]);
 
@@ -91,9 +92,15 @@ void glsol::next_bath() {
   } // onsite() block ends here
 
   onsites (ALL) {
+	matep::Matep MP;
 
     real_t beta[6];
-    point_params(T[X], p[X],beta);
+    beta[0] = MP.alpha_td(p[X], T[X]);
+    beta[1] = MP.beta1_td(p[X], T[X]);
+    beta[2] = MP.beta2_td(p[X], T[X]);
+    beta[3] = MP.beta3_td(p[X], T[X]);
+    beta[4] = MP.beta4_td(p[X], T[X]);
+    beta[5] = MP.beta5_td(p[X], T[X]);
 
     auto AxAt = A[X]*A[X].transpose();
     auto AxAd = A[X]*A[X].dagger();

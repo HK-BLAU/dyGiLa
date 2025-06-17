@@ -51,7 +51,10 @@ void glsol::next_bath_UniT_quench_Hfield() {
 	config.tauQ = (t > config.tQ1Waiting) ? config.tauQ2 : config.tauQ1;
         	 
         // Temperature update for uniform quench
-        T[ALL] = T[X] - ((config.dt/config.tauQ) * MP.Tcp_mK(config.Inip));
+		onsites(ALL) {
+			matep::Matep MP;
+			T[X] = T[X] - ((config.dt/config.tauQ) * MP.Tcp_mK(config.Inip));
+		}
         // hila::out0 << " T in site is " << T.get_element(originpoints) << std::endl;
 
        }
@@ -62,7 +65,8 @@ void glsol::next_bath_UniT_quench_Hfield() {
   
       
   onsites(ALL) {
-
+	matep::Matep MP;
+	
     real_t gapa = MP.gap_A_td(p[X], T[X]);
     real_t gapb = MP.gap_B_td(p[X], T[X]);
 
@@ -120,9 +124,15 @@ void glsol::next_bath_UniT_quench_Hfield() {
   } // onsite() block ends here
 
   onsites (ALL) {
-
+	matep::Matep MP;
+	
     real_t beta[6];
-    point_params(T[X], p[X], beta);
+    beta[0] = MP.alpha_td(p[X], T[X]);
+    beta[1] = MP.beta1_td(p[X], T[X]);
+    beta[2] = MP.beta2_td(p[X], T[X]);
+    beta[3] = MP.beta3_td(p[X], T[X]);
+    beta[4] = MP.beta4_td(p[X], T[X]);
+    beta[5] = MP.beta5_td(p[X], T[X]);
 
     auto AxAt = A[X]*A[X].transpose();
     auto AxAd = A[X]*A[X].dagger();
@@ -179,6 +189,7 @@ void glsol::next_bath_UniT_quench_Hfield() {
   else if (t < config.tdis && config.gamma.squarenorm() > 0 )
     {
       onsites(ALL){
+	matep::Matep MP;
 	phi_t rad_mat;
 	rad_mat.gaussian_random();
 	pi[X] = pi[X] + (deltaPi[X] - 2.0 * config.gamma * pi[X])*(config.dt/2.0);
