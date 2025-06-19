@@ -24,10 +24,6 @@ namespace matep {
 class Matep {
 public:
         Matep() {};                                                  // default constructor
-  /*Matep(const std::string &tempScale):
-    Switch("OFF"), temperature_scale(tempScale) {};*/                    // constructor with temperature scale option  
-    //    Matep(const std::string &S):
-	//  Switch(S) {};                                                      // metap with fudge exponent switch
 
   // ************************************************************************** //
   // >>>>>>>>>>>        interfaces of dimensional qualities        <<<<<<<<<<<< //
@@ -129,10 +125,6 @@ private:
 		#pragma hila loop_function
         // linear interpolation function:
         real_t lininterp(const real_t *cX_arr, real_t p);
-
-		#pragma hila loop_function
-        // fudge expotent calculator
-        real_t exp_q(real_t p);
 };
 }
 #endif

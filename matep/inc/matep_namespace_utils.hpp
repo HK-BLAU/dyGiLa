@@ -60,8 +60,6 @@ namespace matep {
   real_t XI0_arr[18];
   real_t Fa0_arr[18]; // Landao parameter
   
-  real_t coef4[5];
-  
   real_t gammahbar;
   real_t mus;
   };

@@ -67,8 +67,8 @@ void glsol::next_bath_UniT_quench_Hfield() {
   onsites(ALL) {
 	matep::Matep MP;
 	
-    real_t gapa = MP.gap_A_td(p[X], T[X]);
-    real_t gapb = MP.gap_B_td(p[X], T[X]);
+    real_t gapa = MP.gap_A_td(config.Inip, T[X]);
+    real_t gapb = MP.gap_B_td(config.Inip, T[X]);
 
     A[X] += config.dt * pi[X];
 
@@ -127,12 +127,12 @@ void glsol::next_bath_UniT_quench_Hfield() {
 	matep::Matep MP;
 	
     real_t beta[6];
-    beta[0] = MP.alpha_td(p[X], T[X]);
-    beta[1] = MP.beta1_td(p[X], T[X]);
-    beta[2] = MP.beta2_td(p[X], T[X]);
-    beta[3] = MP.beta3_td(p[X], T[X]);
-    beta[4] = MP.beta4_td(p[X], T[X]);
-    beta[5] = MP.beta5_td(p[X], T[X]);
+    beta[0] = MP.alpha_td(config.Inip, T[X]);
+    beta[1] = MP.beta1_td(config.Inip, T[X]);
+    beta[2] = MP.beta2_td(config.Inip, T[X]);
+    beta[3] = MP.beta3_td(config.Inip, T[X]);
+    beta[4] = MP.beta4_td(config.Inip, T[X]);
+    beta[5] = MP.beta5_td(config.Inip, T[X]);
 
     auto AxAt = A[X]*A[X].transpose();
     auto AxAd = A[X]*A[X].dagger();
@@ -143,7 +143,7 @@ void glsol::next_bath_UniT_quench_Hfield() {
       - 2.0*beta[3]*AxAt*A[X].conj()
       - 2.0*beta[4]*AxAd*A[X]
       - 2.0*beta[5]*A[X].conj()*A[X].transpose()*A[X]
-      - MP.gz_td(p[X])*H[X]*(H[X].transpose()*A[X]);
+      - MP.gz_td(config.Inip)*H[X]*(H[X].transpose()*A[X]);
 
   }
 

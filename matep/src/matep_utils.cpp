@@ -90,54 +90,6 @@ Matep::epsilon(int al, int be, int ga)
     {return 0.0;}
 }  
 
-
-//**********************************************************************
-//***              private method : fudge expotential                ***
-//**********************************************************************
-
-real_t
-Matep::exp_q(real_t p){
-  // 4th-order polynomial of q for Greywall scale
-
-  real_t q = 0.f, defp_G;
-  defp_G = p - wrapper_mp().p_pcp;
-  if (defp_G >= 0.f){
-      
-    for (unsigned co = 0; co < 5; ++co){
-    	q += wrapper_mp().coef4[co]*(std::pow(defp_G,co));
-    }
-  } else {
-    q = 0.f;
-  } 
-    
-  return std::exp(q);
-  // std::cout << " \n defp_G is " << defp_G << std::endl;
-  // if (Switch == "ON") {
-    
-  //   if (defp_G >= 0.f){
-      
-  //     for (unsigned co = 0; co < 5; ++co){
-  //     	q += coef4[co]*(std::pow(defp_G,co));
-  //     }
-  //   } else {
-  //     q = 0.f;
-  //   } 
-    
-  //   return std::exp(q);
-
-  // } else if (Switch == "OFF") {
-  //   q = 0.f;
-    //std::cout << " q is " << q << std::endl;
-  //   return std::exp(0.f);
-
-  // } else {
-
-  //   std::cout << " \n Switch must be \"ON\" or \"OFF\"! " << std::endl;
-  //   return 1;
-  // }
-  
-}  
-
 //**********************************************************************
 //***       private method :  linear intepolation function           ***
 //**********************************************************************

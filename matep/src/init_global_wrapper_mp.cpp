@@ -82,9 +82,6 @@ namespace matep {
 	
 	real_t Fa0_ARR[18] = {-0.7226, -0.7317, -0.7392, -0.7453, -0.7503, -0.7544, -0.7580, -0.7610, -0.7637, -0.7661, -0.7684, -0.7705, -0.7725, -0.7743, -0.7758, -0.7769, -0.7775, -0.7775};
 	for (unsigned int i = 0; i<18; ++i) { mp_consts.Fa0_arr[i] = Fa0_ARR[i]; }
-	
-	real_t COEF4[5] = {-6.00498973e-03, -1.01758101e-02,  1.46969023e-03, -1.14870022e-04, 4.11400719e-06};
-	for (unsigned int i = 0; i<5; ++i) { mp_consts.coef4[i] = COEF4[i]; }
 
     // assign to global wrapper, ::wrapper_mp does fetch object, it isn't in global scope :: 
     wrapper_mp = mp_consts;

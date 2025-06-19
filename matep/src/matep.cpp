@@ -101,7 +101,7 @@ Matep::alpha_td(real_t p, real_t T){ return 1.f*(T/Tcp_mK(p)-1); }
 
 real_t
 Matep::beta1_td(real_t p, real_t T){
-  real_t beta1 = wrapper_mp().c_betai*(-1.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c1_arr, p));
+  real_t beta1 = wrapper_mp().c_betai*(-1.0f + (T/Tcp_mK(p))*lininterp(wrapper_mp().c1_arr, p));
 
   return beta1;
 }  
@@ -109,7 +109,7 @@ Matep::beta1_td(real_t p, real_t T){
 
 real_t
 Matep::beta2_td(real_t p, real_t T){
-  real_t beta2 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c2_arr, p));
+  real_t beta2 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*lininterp(wrapper_mp().c2_arr, p));
 
   return beta2;
 }  
@@ -117,7 +117,7 @@ Matep::beta2_td(real_t p, real_t T){
 
 real_t
 Matep::beta3_td(real_t p, real_t T){
-  real_t beta3 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c3_arr, p));
+  real_t beta3 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*lininterp(wrapper_mp().c3_arr, p));
 
   return beta3;
 }  
@@ -125,7 +125,7 @@ Matep::beta3_td(real_t p, real_t T){
 
 real_t
 Matep::beta4_td(real_t p, real_t T){
-  real_t beta4 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c4_arr, p));
+  real_t beta4 = wrapper_mp().c_betai*(2.0f + (T/Tcp_mK(p))*lininterp(wrapper_mp().c4_arr, p));
 
   return beta4;
 }
@@ -133,7 +133,7 @@ Matep::beta4_td(real_t p, real_t T){
 
 real_t
 Matep::beta5_td(real_t p, real_t T){
-  real_t beta5 = wrapper_mp().c_betai*(-2.0f + (T/Tcp_mK(p))*exp_q(p)*lininterp(wrapper_mp().c5_arr, p));
+  real_t beta5 = wrapper_mp().c_betai*(-2.0f + (T/Tcp_mK(p))*lininterp(wrapper_mp().c5_arr, p));
 
   return beta5;
 }  
