@@ -1,6 +1,6 @@
-Nx                  64              # Number of points in the 0st direction 512
-Ny                  32              # Number of points in the 2nd direction 256
-Nz                  32               # Number of points in the 3rd direction 127
+Nx                  512              # Number of points in the 0st direction 512
+Ny                  256              # Number of points in the 2nd direction 256
+Nz                  256              # Number of points in the 3rd direction 127
 dx                  0.5              # Distance between two points
 
 dtdxRatio           0.2              # ratio between dt and dx
