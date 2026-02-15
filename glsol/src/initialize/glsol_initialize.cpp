@@ -296,11 +296,11 @@ void glsol::initialize() {
     pi = 0;
     real_t gap_A = MP.gap_A_td(config.Inip, config.IniT);
     real_t gap_B = MP.gap_B_td(config.Inip, config.IniT);
-    
-    // B bubble radius from kappa
-    real_t total_volume = config.lx * config.ly * config.lz;
-    real_t bubble_volume = config.kappa * total_volume;
-    real_t bubble_radius = pow(3.0 * bubble_volume / (4.0 * M_PI), 1.0/3.0);
+
+    // radius of initial bubble in lattice units
+    real_t bubble_radius_lattice = config.init_radius / config.dx;
+
+    long int b_phase_count = 0;
     
     real_t center_x = config.lx / 2.0;
     real_t center_y = config.ly / 2.0; 
@@ -308,12 +308,14 @@ void glsol::initialize() {
     
     onsites(ALL) {
         // distance from center
-        real_t dx = X.coordinate(e_x) - center_x;
-        real_t dy = X.coordinate(e_y) - center_y;
-        real_t dz = X.coordinate(e_z) - center_z;
-        real_t distance = sqrt(dx*dx + dy*dy + dz*dz);
+        real_t dist_x = X.coordinate(e_x) - center_x;
+        real_t dist_y = X.coordinate(e_y) - center_y;
+        real_t dist_z = X.coordinate(e_z) - center_z;
+        real_t distance = sqrt(dist_x*dist_x + dist_y*dist_y + dist_z*dist_z);
         
-        if (distance <= bubble_radius) {
+        if (distance <= bubble_radius_lattice) {
+            b_phase_count += 1;
+
             // B phase (inside bubble)
             foralldir(d1) foralldir(d2) {
                 if (d1 == d2) {
@@ -343,9 +345,16 @@ void glsol::initialize() {
         }
     }
     
+    // random noise to impove sampling
+    A[ALL] = A[X] + hila::gaussrand() * 0.001;
+
+    long int total_sites = (long int)config.lx * (long int)config.ly * (long int)config.lz;
+
+    real_t fraction = (real_t)b_phase_count / (real_t)total_sites;
+
     hila::out0 << "B-phase bubble in A-phase background initialized "
-               << ", kappa = " << config.kappa 
-               << ", bubble radius = " << bubble_radius
+               << "B-phase fraction = " << fraction
+               << ", radius = " << config.init_radius
                << ", gapA^2 = " << gap_A * gap_A
                << ", gapB^2 = " << gap_B * gap_B
                << std::endl;
@@ -364,6 +373,11 @@ void glsol::initialize() {
   } // switch block ends here
 
   phaseMarker = 0.0f;
+
+  // initialize PID state variables
+  volumeHistory.clear();
+  errorIntegral = 0.0;
+  lastVolumeError = 0.0;
 
 } // initialize() call end here
 

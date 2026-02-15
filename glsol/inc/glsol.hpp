@@ -81,7 +81,8 @@ public:
   void GaussianLPfilter_matrix(Field<phi_t> &);
   
   void phaseMarking();
-  void phaseCounting();
+  real_t phaseCounting();
+  void updatePhaseControl(real_t currentVolume);
   
   void next();
   void next_bath();
@@ -89,6 +90,7 @@ public:
   void next_bath_UniT_quench_Hfield();
   void next_bath_hotblob_quench_Hfield();
   void next_UniT_Hfield_constrained();  
+  void next_UniT_Hfield_PID();
   //void nextT();
   
   Field<phi_t> A;
@@ -113,6 +115,11 @@ public:
   std::vector<real_t> t_v;
   std::vector<real_t> T_v;
   std::vector<real_t> p_v;
+
+  // temperature control runtime data
+  std::vector<real_t> volumeHistory;
+  real_t errorIntegral;
+  real_t lastVolumeError;
     
 };
 

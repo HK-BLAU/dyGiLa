@@ -14,7 +14,7 @@
 
 #include <iomanip>
 
-void glsol::phaseCounting() {
+real_t glsol::phaseCounting() {
   
   ReductionVector<double> px_acc(/*pxacc::*/N_PMREDUCTION);
   px_acc = 0.f;
@@ -95,6 +95,7 @@ void glsol::phaseCounting() {
 	 /***************************/    
          << std::endl;
 
-  
+  int targetIdx = config.targetPhase - 1;
+  return px_acc[targetIdx] / vol;
 } // phases_counter function ends here
 

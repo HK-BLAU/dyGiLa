@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     /* on gpu the simulation timer is fake, because there's no sync here.*/  
     /* BUt we want to avoid unnecessary sync anyway.                     */
     /*-------------------------------------------------------------------*/      
-    static hila::timer run_timer("Simulation time"), meas_timer("Measurements");
+    static hila::timer run_timer("Simulation time"), meas_timer("Measurements"), pario_timer("ParIO time");
     run_timer.start();
     
     while (gl.t < gl.config.tEnd) {
@@ -113,10 +113,12 @@ int main(int argc, char **argv) {
 	      gl.write_energies();
 	      gl.phaseCounting();
 	      //gl.write_phases();
-	      hila::out0 << "write_energies() call is done "
-			 << std::endl;
+	      //hila::out0 << "write_energies() call is done "
+			// << std::endl;
+		  meas_timer.stop();
 
 #if defined USE_PARIO
+	  pario_timer.start();
 	      if (
 		  ((gl.config.hdf5_A_matrix_output == 1)
 		   || (gl.config.hdf5_pMarker_output == 1)
@@ -165,9 +167,9 @@ int main(int argc, char **argv) {
 				paraio.pstream(gl, stat_counter);
 			}
 		  }	
-		  hila::out0 << "paraio.pstream() call is done " << std::endl;
+		  // hila::out0 << "paraio.pstream() call is done " << std::endl;
 #endif	            
-	      meas_timer.stop();
+	      pario_timer.stop();
 	   } // streaming block
 
 	   
@@ -200,7 +202,7 @@ int main(int argc, char **argv) {
         } //gl.t > gl.config.Stats block
 
         gl.phaseMarking();        
-        hila::out0 << "phaseMarking() call is done. " << std::endl;
+        //hila::out0 << "phaseMarking() call is done. " << std::endl;
 	
 
 	/*******************************************************************/
@@ -278,6 +280,22 @@ int main(int argc, char **argv) {
 		       << std::endl;	    
 
 	  }
+
+	else if (
+         (gl.config.Tstabilization == 1)
+	 && (gl.config.useTbath == 0)
+	 && (gl.config.evolveT == 0)
+        )
+	  {
+		gl.next_UniT_Hfield_PID();
+		//hila::out0 << " gl.t is " << gl.t << ", gl.config.gamma is " << gl.config.gamma
+		//	   << ", next_bath_UniT_Hfield_PID() call, T in site is " << gl.T.get_element(originpoints)
+		//		   << ", |H| is " << norm(gl.H.get_element(originpoints))
+		//	   << ", Tc is " << gl.MP.Tcp_mK(gl.config.Inip)
+		//	   << ", target phase volume: " << gl.config.targetVolumeFraction
+		//	   << std::endl;	    	    
+	  }
+
 	else if (
                  (gl.config.constrained == 1)
 		 && (gl.config.useTbath == 0)

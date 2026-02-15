@@ -31,12 +31,14 @@ GLSOL_OBJECTS = build/allocate.o              \
                 build/gaussianLP_matrix.o     \
                 build/phaseMarking.o          \
                 build/phaseCounting.o         \
+		        build/updatePhaseControl.o    \
                 build/next.o                  \
                 build/next_bath.o             \
                 build/next_bath_UniT_quench.o \
                 build/next_bath_UniT_quench_Hfield.o \
                 build/next_bath_hotblob_quench_Hfield.o \
                 build/next_UniT_Hfield_constrained.o \
+		        build/next_UniT_Hfield_PID.o \
                 build/glsol_initialize.o      \
                 build/glsol_initialize_T.o    \
                 build/glsol_initialize_H.o    \

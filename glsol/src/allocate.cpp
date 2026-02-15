@@ -242,9 +242,25 @@ const std::vector<std::string> glsol::allocate(const std::string &fname, int arg
        config.lambda1       = parameters.get("lambda1");
        config.confSmoothTime = parameters.get("confSmoothTime");
        config.lambdaIncrement = parameters.get("lambdaIncrement");
-       config.kappa = parameters.get("kappa");
        config.resetPi = parameters.get_item("resetPi",{"no","yes"});
-      }	
+       config.kappa = parameters.get("kappa");
+      }
+
+    config.init_radius = parameters.get("init_radius");
+	
+    // temperature phase stabilization  
+    config.Tstabilization = parameters.get_item("Tstabilization",{"no","yes"});
+    if (config.Tstabilization == 1)
+    {
+        config.Tstabilization_start = parameters.get("Tstabilization_start");
+        config.targetPhase = parameters.get("targetPhase");
+        config.targetVolumeFraction = parameters.get("targetVolumeFraction");
+        config.Kp = parameters.get("Kp");
+        config.Ki = parameters.get("Ki");
+        config.Kd = parameters.get("Kd");
+        config.maxTempChange = parameters.get("maxTempChange");
+        config.historySize = parameters.get("historySize");
+    }
 
     /*----------------------------------------*/    
     /* Approx. Gaussian LP filter parameters  */
@@ -436,4 +452,3 @@ const std::vector<std::string> glsol::allocate(const std::string &fname, int arg
     return name_files; //output_file pVfile;
     
 } // allocate() function ends here
-

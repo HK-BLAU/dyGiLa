@@ -147,6 +147,20 @@ struct dyGiLaConf {
       real_t kappa;  // fraction index
       unsigned int resetPi; // makes Pi=0 before each update if constrained physics are enabled
 
+      // radius of initial bubble for case 10 in coherence length units 
+      real_t init_radius;
+
+      // dynamic temperature for phase stabilization
+      unsigned int Tstabilization; // enable/disable phase stabilization
+      int targetPhase;    // 5=B, 9=A
+      real_t Tstabilization_start; // time when to start stabilization
+      real_t targetVolumeFraction; // fraction of target phase in simulation (between 0 and 1)
+      real_t Kp;                   // proportional temperature factor
+      real_t Ki;                   // integral factor
+      real_t Kd;                   // derivative factor
+      real_t maxTempChange;        // max temperature change
+      unsigned int historySize;    // how many previous timesteps to look at for derivative/integral terms
+
       // custom insitu timesteps
       unsigned int use_custom_insitu_timesteps;
       std::vector<double> custom_insitu_timesteps;

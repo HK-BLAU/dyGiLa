@@ -23,7 +23,7 @@ ifndef ARCH
 endif
 
 # absolute UNIX path of dyGiLa folder
-DYGILA_DIR := /projappl/project_2014552/dyGiLa-release-constrained
+DYGILA_DIR := /projappl/project_2014552/dyGiLa-release-dev
 
 ifeq ($(ARCH), lumi)
  DYGILA_DIR := /projappl/project_462000465/dyGiLa
@@ -33,7 +33,7 @@ else
   endif
 endif
 
-APP_OPTS := -DNDIM=3
+APP_OPTS := -DNDIM=3 -DGPU_SYNCHRONIZE_TIMERS=1
 #-DEVEN_SITES_FIRST=0
 
 
