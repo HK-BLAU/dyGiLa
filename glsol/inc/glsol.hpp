@@ -81,7 +81,7 @@ public:
   void GaussianLPfilter_matrix(Field<phi_t> &);
   
   void phaseMarking();
-  real_t phaseCounting();
+  real_t phaseCounting(int phaseA = 0, int phaseB = 0);
   void updatePhaseControl(real_t currentVolume);
   
   void next();

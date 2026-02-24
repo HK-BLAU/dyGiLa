@@ -14,7 +14,7 @@
 
 #include <iomanip>
 
-real_t glsol::phaseCounting() {
+real_t glsol::phaseCounting(int phaseA, int phaseB) {
   
   ReductionVector<double> px_acc(/*pxacc::*/N_PMREDUCTION);
   px_acc = 0.f;
@@ -94,6 +94,13 @@ real_t glsol::phaseCounting() {
          << acc_vol*Velem
 	 /***************************/    
          << std::endl;
+
+
+  if (phaseA > 0 && phaseB > 0) {
+	real_t A_ratio = px_acc[phaseA - 1] / vol;
+	real_t B_ratio = px_acc[phaseB - 1] / vol;
+	return (A_ratio > B_ratio) ? A_ratio : B_ratio;
+  }
 
   int targetIdx = config.targetPhase - 1;
   return px_acc[targetIdx] / vol;

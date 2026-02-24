@@ -111,7 +111,11 @@ int main(int argc, char **argv) {
 	      meas_timer.start();
 	      //gl.write_moduli();
 	      gl.write_energies();
-	      gl.phaseCounting();
+	      real_t max_prevalence = gl.phaseCounting(5, 9);
+		  if (max_prevalence >= 0.9999) {
+			hila::out0 << "\nA or B phase saturation reached. Ending simulation. \n" << std::endl;
+			break;
+		  }
 	      //gl.write_phases();
 	      //hila::out0 << "write_energies() call is done "
 			// << std::endl;
