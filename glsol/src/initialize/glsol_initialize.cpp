@@ -315,33 +315,14 @@ void glsol::initialize() {
         
         if (distance <= bubble_radius_lattice) {
             b_phase_count += 1;
-
-            // B phase (inside bubble)
-            foralldir(d1) foralldir(d2) {
-                if (d1 == d2) {
-                    A[X].e(d1,d2).re = 1.0;
-                    A[X].e(d1,d2).im = 0.0;
-                } else {
-                    A[X].e(d1,d2).re = 0.0;
-                    A[X].e(d1,d2).im = 0.0;
-                }
-            }
-            A[X] = gap_B * A[X] / sqrt(3.0);
+           // B phase (inside bubble)
+            A[X] = gap_B  / sqrt(3.0);
         } else {
             // A phase (outside bubble)
-            foralldir(d1) foralldir(d2) {
-                if (d1 == 0 && d2 == 0) {
-                    A[X].e(d1,d2).re = 1.0;
-                    A[X].e(d1,d2).im = 0.0;
-                } else if (d1 == 0 && d2 == 1) {
-                    A[X].e(d1,d2).re = 0.0;  
-                    A[X].e(d1,d2).im = 1.0;
-                } else {
-                    A[X].e(d1,d2).re = 0.0;
-                    A[X].e(d1,d2).im = 0.0;
-                }
-            }
-            A[X] = gap_A * A[X] / sqrt(2.0);
+            A[X] = 0;
+            A[X].e(0,0) = 1;
+            A[X].e(0,1) = I;
+            A[X] *= gap_A / sqrt(2.0);
         }
     }
     
