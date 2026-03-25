@@ -247,6 +247,8 @@ const std::vector<std::string> glsol::allocate(const std::string &fname, int arg
       }
 
     config.init_radius = parameters.get("init_radius");
+
+    config.saturationStop = parameters.get_item("saturationStop",{"no", "yes"});
 	
     // temperature phase stabilization  
     config.Tstabilization = parameters.get_item("Tstabilization",{"no","yes"});

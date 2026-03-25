@@ -150,6 +150,9 @@ struct dyGiLaConf {
       // radius of initial bubble for case 10 in coherence length units 
       real_t init_radius;
 
+      // stop simulation in the case of pure A or B phase lattice
+      unsigned int saturationStop;
+
       // dynamic temperature for phase stabilization
       unsigned int Tstabilization; // enable/disable phase stabilization
       int targetPhase;    // 5=B, 9=A
