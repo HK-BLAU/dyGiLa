@@ -119,7 +119,7 @@ void glsol::write_energies() {
        config.stream
 	 << t << "," << T000 << "," 
 	 /***************************/	 	 	 
-	 << sumAgap.re / vol << "," << sumAgap.im / vol << ","
+	 << sumAgap.re / vol << "," << sumAgap.im / vol << "," << std::scientific << std::setprecision(9)
 	 /***************************/	 	 
 	 << red[/*reduc::*/i_sumgapA].re / vol << "," << red[/*reduc::*/i_sumgapA].im / vol << ","
 	 /***************************/	 

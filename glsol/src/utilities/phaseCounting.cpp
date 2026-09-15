@@ -51,7 +51,7 @@ real_t glsol::phaseCounting(int phaseA, int phaseB) {
   // Volume element in unit of \xi_GL^0
   const double Velem = config.dx*config.dx*config.dx;
   config.streampc << t << "," << T000 << ",";
-  config.streampc << std::fixed << std::setprecision(9)
+  config.streampc << std::fixed << std::scientific << std::setprecision(9)
 	 /***************************/	 	 	 
 	 << px_acc[/*pxacc::*/p1_acc]/vol << ","
 	 /***************************/	 	 

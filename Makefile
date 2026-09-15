@@ -6,7 +6,7 @@
 # HILA_DIR=cosfithe option in command line
 
 # Absolute UNIX path of library HILA
-HILA_DIR := /projappl/project_2014552/HILA-v0.0.1
+HILA_DIR := /projappl/project_2014552/HILA-v0.0.2
 ASCENT_DIR := /projappl/project_2014552/ascent-v0.9.3/install/ascent-v0.9.3
 
 ifeq ($(ARCH), lumi)
@@ -33,7 +33,7 @@ else
   endif
 endif
 
-APP_OPTS := -DNDIM=3 -DGPU_SYNCHRONIZE_TIMERS=1
+APP_OPTS := -DNDIM=3 -DGPU_SYNCHRONIZE_TIMERS=1 -DGPU_AWARE_MPI=0
 #-DEVEN_SITES_FIRST=0
 
 
